@@ -76,7 +76,7 @@ class BitcoinBackend:
             if address in output["addresses"]:
                 return output["value"]
 
-    def generate_new_address(self, index, address_type="p2pkh"):
+    def generate_new_address(self, index, address_type="p2wpkh", derivation_path="m/0"):
         """
         Generate new bitcoin address from a hd public master key based on a particlar index
         Address can be generated sequentially like in the case of electrum
@@ -84,7 +84,7 @@ class BitcoinBackend:
         :param address_type: Address type to generate
         :return: Generated address
         """
-        address = self.wallet.clean_derivation().from_path("{}/{}".format("m/0", str(index))).dumps()['addresses'][address_type.lower()]
+        address = self.wallet.clean_derivation().from_path("{}/{}".format(derivation_path, str(index))).dumps()['addresses'][address_type.lower()]
         return address
 
     def convert_from_fiat(self, amount, currency="USD"):

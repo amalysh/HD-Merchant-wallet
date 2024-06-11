@@ -1,3 +1,6 @@
 
 def get_supported_backend():
-    return [{'Bitcoin': {'code': 'btc'}}]
+    return [
+        {'Bitcoin': {'code': 'btc'}},
+        {'Ethereum': {'code': 'eth'}},
+    ]
