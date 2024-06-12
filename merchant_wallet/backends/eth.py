@@ -1,5 +1,6 @@
 import datetime
 from hdwallet import HDWallet
+from hdwallet.symbols import ETH
 from ..converter.bitpay import BitPayConverter as EthConverter
 import blockcypher
 
@@ -74,7 +75,7 @@ class EthereumBackend:
     def __init__(self, public_key):
         self.public_key = public_key
         self.converter = EthConverter()
-        wallet = HDWallet(symbol="ETH")
+        wallet = HDWallet(symbol=ETH)
         self.wallet = wallet.from_xpublic_key(public_key)
 
     def get_address_output_value(self, address, outputs):

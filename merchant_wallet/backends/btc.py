@@ -1,6 +1,7 @@
 import datetime
 import blockcypher
 from hdwallet import HDWallet
+from hdwallet.symbols import BTC, BTCTEST
 from ..converter.bitpay import BitPayConverter as BtcConverter
 
 
@@ -63,7 +64,7 @@ class BitcoinBackend:
     NO_HASH_ADDRESS_BALANCE = -2
 
     coin_symbol = "btc"
-    coin_symbol_wallet = "BTC"
+    coin_symbol_wallet = BTC
 
     def __init__(self, public_key):
         self.public_key = public_key
@@ -213,4 +214,4 @@ class BitcoinBackend:
 class BitcoinTestBackend(BitcoinBackend):
 
     coin_symbol = "btc-testnet"
-    coin_symbol_wallet = "BTCTEST"
+    coin_symbol_wallet = BTCTEST
