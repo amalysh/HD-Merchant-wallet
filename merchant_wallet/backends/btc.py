@@ -2,6 +2,7 @@ import datetime
 import blockcypher
 from hdwallet import HDWallet
 from hdwallet.symbols import BTC, BTCTEST
+from .backendbase import BackendBase
 from ..converter.bitpay import BitPayConverter as BtcConverter
 
 
@@ -57,20 +58,16 @@ def confirm_transaction_date_without_previous_hash(
     return None
 
 
-class BitcoinBackend:
-    UNCONFIRMED_ADDRESS_BALANCE = 0
-    CONFIRMED_ADDRESS_BALANCE = 1
-    UNDERPAID_ADDRESS_BALANCE = -1
-    NO_HASH_ADDRESS_BALANCE = -2
-
+class BitcoinBackend(BackendBase):
     coin_symbol = "btc"
     coin_symbol_wallet = BTC
 
-    def __init__(self, public_key):
+    def __init__(self, public_key, strict=False):
+        super().__init__(public_key, strict)
         self.public_key = public_key
         self.converter = BtcConverter()
-        wallet = HDWallet(symbol=self.coin_symbol_wallet)
-        self.wallet = wallet.from_xpublic_key(public_key)
+        self.wallet = HDWallet(symbol=self.coin_symbol_wallet)
+        self.wallet.from_xpublic_key(public_key, strict=strict)
 
     def get_address_output_value(self, address, outputs):
         for output in outputs:

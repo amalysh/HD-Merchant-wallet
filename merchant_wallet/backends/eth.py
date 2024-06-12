@@ -1,6 +1,7 @@
 import datetime
 from hdwallet import HDWallet
 from hdwallet.symbols import ETH
+from .backendbase import BackendBase
 from ..converter.bitpay import BitPayConverter as EthConverter
 import blockcypher
 
@@ -64,19 +65,15 @@ def confirm_transaction_date_without_previous_hash(
     return None
 
 
-class EthereumBackend:
-    UNCONFIRMED_ADDRESS_BALANCE = 0
-    CONFIRMED_ADDRESS_BALANCE = 1
-    UNDERPAID_ADDRESS_BALANCE = -1
-    NO_HASH_ADDRESS_BALANCE = -2
-
+class EthereumBackend(BackendBase):
     coin_symbol = "eth"
 
-    def __init__(self, public_key):
+    def __init__(self, public_key, strict=False):
+        super().__init__(public_key, strict)
         self.public_key = public_key
         self.converter = EthConverter()
-        wallet = HDWallet(symbol=ETH)
-        self.wallet = wallet.from_xpublic_key(public_key)
+        self.wallet = HDWallet(symbol=ETH)
+        self.wallet.from_xpublic_key(public_key, strict=False)
 
     def get_address_output_value(self, address, outputs):
         for output in outputs:
